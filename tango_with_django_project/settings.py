@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,11 +26,14 @@ SECRET_KEY = "django-insecure-8_cf(ja2sro&6@^+mo#w7!hs-1tayl*z50zy!w#_d(**2x$r6g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = ['testserver', '127.0.0.1']
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [STATIC_DIR, ]
 # Application definition
-
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,24 +54,31 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "rango_config.urls"
+ROOT_URLCONF = "tango_with_django_project.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [TEMPLATE_DIR, ],
         "APP_DIRS": True,
         "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
+           'context_processors': [
+'django.template.context_processors.debug'
+,
+'django.template.context_processors.request'
+,
+'django.contrib.auth.context_processors.auth'
+,
+'django.contrib.messages.context_processors.messages'
+,
+'django.template.context_processors.media'
+,
+],
         },
     },
 ]
 
-WSGI_APPLICATION = "rango_config.wsgi.application"
+WSGI_APPLICATION = "tango_with_django_project.wsgi.application"
 
 
 # Database
@@ -83,6 +94,15 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+
+LOGIN_URL = 'rango:login'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -115,4 +135,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
