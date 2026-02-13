@@ -3,3 +3,4 @@ venv/
 .venv/
 *.pyc
 *.pyo
+db.sqlite3
